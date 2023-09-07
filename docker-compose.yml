@@ -1,0 +1,23 @@
+version: '2'
+services:
+  database:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres@localhost
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+  app:
+    container_name: app
+    image: 'cloud_api'
+    build:
+      context: .
+    ports:
+      - "8070:8070"
+    depends_on:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
